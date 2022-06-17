@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rogue.Development.Ui", "Rogue.Development.Ui\Rogue.Development.Ui.csproj", "{230F10E6-0F69-4748-BBA2-463BA25604D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rogue.Development.Channels", "Rogue.Development.Channels\Rogue.Development.Channels.csproj", "{49008B2F-44D8-4DB2-BA4E-83652C406D1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{230F10E6-0F69-4748-BBA2-463BA25604D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{230F10E6-0F69-4748-BBA2-463BA25604D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{230F10E6-0F69-4748-BBA2-463BA25604D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49008B2F-44D8-4DB2-BA4E-83652C406D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49008B2F-44D8-4DB2-BA4E-83652C406D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49008B2F-44D8-4DB2-BA4E-83652C406D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49008B2F-44D8-4DB2-BA4E-83652C406D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
