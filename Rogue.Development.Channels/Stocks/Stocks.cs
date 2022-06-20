@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 using Microsoft.Extensions.Logging;
+using Document = Microsoft.Azure.Documents.Document;
 
 namespace Rogue.Development.Channels.Stocks;
 
@@ -30,10 +30,10 @@ public static class Stocks
             LeaseCollectionName = "leases",
             CreateLeaseCollectionIfNotExists = true,
             FeedPollDelay = 500)]
-        IReadOnlyList<Document> documents, ILogger logger,
+        IReadOnlyList<Document> stockUpdates, ILogger logger,
         [SignalR(HubName = "stocks")] IAsyncCollector<SignalRMessage> signalRMessages)
     {
-        var updates = documents.Select(stock => new StockUpdateDto
+        var updates = stockUpdates.Select(stock => new StockUpdateDto
         {
             StockId = Guid.NewGuid(),
             Value = 1

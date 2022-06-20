@@ -1,22 +1,68 @@
 @page "/stocks"
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.SignalR.Client
 
 <h1 class="title">Stocks</h1>
 <div id="stocks">
-    <div v-for="stock in stocks" class="stock">
-        <transition name="fade" mode="out-in">
-            <div class="list-item" :key="stock.price">
-                <div class="lead">{{ stock.symbol }}: ${{ stock.price }}</div>
-                <div class="change">Change:
-                    <span
-                        :class="{ 'is-up': stock.changeDirection === '+', 'is-down': stock.changeDirection === '-' }">
-                        {{ stock.changeDirection }}{{ stock.change }}
-                    </span>
+    @foreach (var stock in _stocks)
+    {
+        <div class="stock">
+            <transition name="fade" mode="out-in">
+                <div class="list-item">
+                    <div class="lead">@stock.Name: @stock.Value</div>
+                    <div class="change">Change:
+                        <span class="@(stock.ChangeDirection == '+' ? "is-up": "is-down")">
+                            {{ @stock.ChangeDirection }}{{ stock.Change }}
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </transition>
-    </div>
+            </transition>
+        </div>
+    }
 </div>
 
 @code {
-    
+    private string? _hubUrl;
+    private HubConnection? _hubConnection;
+    private readonly IReadOnlyList<StockChange> _stocks = new List<StockChange>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try {
+    // Create the chat client
+            string baseUrl = NavigationManager.BaseUri;
+
+            _hubUrl = baseUrl.TrimEnd('/') + StocksHub.Url;
+
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl(_hubUrl)
+                .Build();
+
+            _hubConnection.On<string, string>("stockUpdate", ReceiveStockUpdate);
+
+            await _hubConnection.StartAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+
+    private void ReceiveStockUpdate(string arg1, string arg2)
+    {
+        Console.WriteLine($"{arg1} - {arg2}");
+    }
+
+    // StateHasChanged();
+
+    private async Task DisconnectAsync()
+    {
+        if (_hubConnection != null)
+        {
+            await _hubConnection!.StopAsync();
+            await _hubConnection.DisposeAsync();
+
+            _hubConnection = null;
+        }
+    }
 }
